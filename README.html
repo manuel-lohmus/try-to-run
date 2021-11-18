@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>try-to-run: If happen AppCrash then try to run app again.</title>
+</head>
+<body>
+
+    <h1 id="try-to-run-if-happen-appcrash-then-try-to-run-app-again">try-to-run: If happen AppCrash then try to run app again.</h1>
+<p><a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/v/try-to-run" alt="npm-version" /></a>
+<a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/dw/try-to-run" alt="npm-week-downloads" /></a></p>
+<p>If happen AppCrash then try to run app again.
+Easy to use.
+Relaunch your app.js.</p>
+<h2 id="installing">Installing</h2>
+<p><code>npm install try-to-run</code></p>
+<h2 id="usage-example">Usage example</h2>
+<p>app.js</p>
+<pre><code class="language-js">&quot;use strict&quot;;
+
+/* longer version */
+var try_to_run = require(&quot;./../index&quot;);
+//var try_to_run = require(&quot;try_to_run&quot;);
+var isMainThread = try_to_run(__filename, 20);
+if (isMainThread) return;
+
+/* short version */
+//if (require(&quot;try_to_run&quot;)()) return;
+
+
+console.time(&quot;Time&quot;);
+var http = require(&quot;http&quot;);
+var port = process.env.PORT || 1337;
+var server = http.createServer();
+
+// Console log
+server.on(&quot;request&quot;, function (req, res) {
+    console.timeLog(&quot;Time&quot;, &quot;Url: &quot; + req.headers.host + req.url);
+});
+
+// Simulated crash ...
+server.on(&quot;request&quot;, function (req, res) {
+    if (req.url === &quot;/crash&quot;) { throw new Error(&quot;Simulated crash ...&quot;); }
+});
+
+// Test page.
+server.on(&quot;request&quot;, function (req, res) {
+
+    if (req.url === &quot;/&quot;) {
+
+        res.writeHead(200, { &quot;Content-Type&quot;: &quot;text/html; charset=UTF-8&quot; });
+        res.end(`
+&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Test&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    Test ... &lt;a href=&quot;/crash&quot;&gt;crash&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;`);
+    }
+    else {
+
+        console.warn(&quot;Warning: 404 Not Found. Url: &quot; + req.headers.host + req.url);
+        res.writeHead(404, { &quot;Content-Type&quot;: &quot;text/plain&quot; });
+        res.end(&quot;404 Not Found Url: &quot; + req.url);
+    }
+});
+
+server.listen(port, function (err) {
+
+    if (err)
+        console.error(err)
+    else
+        console.log(&quot;\r\nWebserver port:&quot; + port + &quot; pid:&quot; + process.pid);
+});
+
+var url = `http://localhost${(port === 443 || port === 80 ? '' : ':' + port)}/`;
+require(&quot;browse-url&quot;)(url);
+</code></pre>
+<p>or index.js</p>
+<pre><code class="language-js">&quot;use strict&quot;;
+
+require(&quot;try_to_run&quot;)(&quot;app.js&quot;);
+</code></pre>
+<h2 id="license">License</h2>
+<p><a href="LICENSE">MIT</a></p>
+<p>Copyright (c) 2021 Manuel Lõhmus <a href="mailto:manuel@hauss.ee">manuel@hauss.ee</a></p>
+
+
+</body>
+</html>

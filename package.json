@@ -1,0 +1,58 @@
+{
+  "name": "try-to-run",
+  "version": "1.0.0",
+  "description": "if (AppCrash === true) { try_to_run...",
+  "keywords": [
+    "try",
+    "to",
+    "run",
+    "fault tolerant",
+    "tools",
+    "pm2",
+    "reload",
+    "production",
+    "node.js",
+    "strong",
+    "deploy",
+    "deployment",
+    "daemon",
+    "supervisor",
+    "supervisord",
+    "nodemon",
+    "process manager",
+    "forever",
+    "container",
+    "forever-monitor",
+    "keep process alive",
+    "process configuration",
+    "clustering",
+    "cluster",
+    "cron",
+    "devops",
+    "dev ops"
+  ],
+  "author": "Manuel Lõhmus <manuel@hauss.ee>",
+  "license": "MIT",
+  "main": "index.min.js",
+  "scripts": {
+    "test": "node test/server.js"
+  },
+  "files": [
+    "test/server.js",
+    "index.js",
+    "index.min.js",
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "README.html"
+  ],
+  "homepage": "https://github.com/manuel-lohmus/try-to-run#readme",
+  "bugs": "https://github.com/manuel-lohmus/try-to-run/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuel-lohmus/try-to-run.git"
+  },
+  "devDependencies": {
+    "browse-url": "^1.0.0"
+  }
+}
