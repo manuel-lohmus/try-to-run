@@ -1,6 +1,6 @@
 {
   "name": "try-to-run",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "if (AppCrash === true) { try_to_run...",
   "keywords": [
     "try",
@@ -34,11 +34,13 @@
   "author": "Manuel Lõhmus <manuel@hauss.ee>",
   "license": "MIT",
   "main": "index.min.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "node test/server.js"
   },
   "files": [
     "test/server.js",
+    "browser.js",
     "index.js",
     "index.min.js",
     "LICENSE",

@@ -31,7 +31,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="bundleconfig.json" />
+    <Content Include="browser.js" />
     <Content Include="index.js">
       <SubType>Code</SubType>
     </Content>

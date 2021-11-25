@@ -1,0 +1,1 @@
+throw new Error("'try-to-run' does not work in the browser.");
