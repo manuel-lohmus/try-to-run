@@ -2,9 +2,10 @@
 <html>
 <head>
     <title>try-to-run: If happen AppCrash then try to run app again.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./md-styles.css">
 </head>
-<body>
-
+<body class="markdown-body">
     <h1 id="try-to-run-if-happen-appcrash-then-try-to-run-app-again">try-to-run: If happen AppCrash then try to run app again.</h1>
 <p><a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/v/try-to-run" alt="npm-version" /></a>
 <a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/dw/try-to-run" alt="npm-week-downloads" /></a></p>
@@ -19,12 +20,12 @@ Relaunch your app.js.</p>
 
 /* longer version */
 var try_to_run = require(&quot;./../index&quot;);
-//var try_to_run = require(&quot;try_to_run&quot;);
+//var try_to_run = require(&quot;try-to-run&quot;);
 var isMainThread = try_to_run(__filename, 20);
 if (isMainThread) return;
 
 /* short version */
-//if (require(&quot;try_to_run&quot;)()) return;
+//if (require(&quot;try-to-run&quot;)()) return;
 
 
 console.time(&quot;Time&quot;);
@@ -83,10 +84,15 @@ require(&quot;browse-url&quot;)(url);
 
 require(&quot;try_to_run&quot;)(&quot;app.js&quot;);
 </code></pre>
+<h4 id="eval-run-a-code-string">Eval: run a code string</h4>
+<p>The built-in eval function allows to execute a string of code.</p>
+<pre><code class="language-js">var code = 'setTimeout(function () { throw new Error(&quot;Simulated crash ...&quot;); }, 1000);';
+
+require(&quot;try-to-run&quot;)(code, 20);
+</code></pre>
 <h2 id="license">License</h2>
 <p><a href="LICENSE">MIT</a></p>
 <p>Copyright (c) 2021 Manuel Lõhmus <a href="mailto:manuel@hauss.ee">manuel@hauss.ee</a></p>
-
 
 </body>
 </html>

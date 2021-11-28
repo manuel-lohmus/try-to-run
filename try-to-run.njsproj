@@ -40,6 +40,9 @@
       <SubType>Content</SubType>
       <DependentUpon>README.md</DependentUpon>
     </Content>
+    <Content Include="test\eval.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="test\server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

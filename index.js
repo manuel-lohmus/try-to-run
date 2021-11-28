@@ -1,5 +1,6 @@
 "use strict";
 
+var fs = require("fs");
 var path = require("path");
 var wt = require("worker_threads");
 var timeout = null;
@@ -8,7 +9,10 @@ var counter = 0;
 
 function try_to_run(filename, retrying) {
 
-    var worker = new wt.Worker(filename);
+    var exists = fs.existsSync(path.resolve(filename));
+    var worker = exists
+        ? new wt.Worker(filename)
+        : new wt.Worker(filename, { eval: true });
 
     worker.on("error", function (err) {
 

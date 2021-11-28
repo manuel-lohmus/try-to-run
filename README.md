@@ -19,12 +19,12 @@ app.js
 
 /* longer version */
 var try_to_run = require("./../index");
-//var try_to_run = require("try_to_run");
+//var try_to_run = require("try-to-run");
 var isMainThread = try_to_run(__filename, 20);
 if (isMainThread) return;
 
 /* short version */
-//if (require("try_to_run")()) return;
+//if (require("try-to-run")()) return;
 
 
 console.time("Time");
@@ -84,6 +84,14 @@ or index.js
 "use strict";
 
 require("try_to_run")("app.js");
+```
+
+#### Eval: run a code string
+The built-in eval function allows to execute a string of code.
+```js
+var code = 'setTimeout(function () { throw new Error("Simulated crash ..."); }, 1000);';
+
+require("try-to-run")(code, 20);
 ```
 
 ## License

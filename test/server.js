@@ -2,12 +2,12 @@
 
 /* longer version */
 var try_to_run = require("./../index");
-//var try_to_run = require("try_to_run");
+//var try_to_run = require("try-to-run");
 var isMainThread = try_to_run(__filename, 20);
 if (isMainThread) return;
 
 /* short version */
-//if (require("try_to_run")()) return;
+//if (require("try-to-run")()) return;
 
 
 console.time("Time");
