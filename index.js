@@ -39,6 +39,8 @@ function try_to_run(filename, retrying) {
             clearTimeout(timeout);
         }
     });
+
+    return worker;
 }
 
 module.exports = function (filename, retrying = 10) {
