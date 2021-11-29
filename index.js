@@ -43,10 +43,16 @@ function try_to_run(filename, retrying) {
     return worker;
 }
 
-module.exports = function (filename, retrying = 10) {
+module.exports = (function () {
 
-    if (!filename) { filename = process.argv[1]; }
-    if (wt.isMainThread) { try_to_run(filename, retrying); }
+    function run(filename, retrying = 10) {
 
-    return wt.isMainThread;
-};
+        if (!filename) { filename = process.argv[1]; }
+        if (wt.isMainThread) { try_to_run(filename, retrying); }
+
+        return wt.isMainThread;
+    };
+    run.try_to_run = try_to_run;
+
+    return run;
+})();
