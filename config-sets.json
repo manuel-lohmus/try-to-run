@@ -1,0 +1,12 @@
+{
+  "production": {
+    "isDebug": false,
+    "browse_url": {
+      "launch_url": "http://localhost:1337/",
+      "enabled": true
+    }
+  },
+  "development": {
+    "isDebug": true
+  }
+}

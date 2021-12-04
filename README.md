@@ -42,6 +42,11 @@ server.on("request", function (req, res) {
     if (req.url === "/crash") { throw new Error("Simulated crash ..."); }
 });
 
+// Shutdown ...
+server.on("request", function (req, res) {
+    if (req.url === "/shutdown") { require("worker_threads").parentPort.postMessage("kill"); }
+});
+
 // Test page.
 server.on("request", function (req, res) {
 

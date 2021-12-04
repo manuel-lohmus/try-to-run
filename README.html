@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>try-to-run: If happen AppCrash then try to run app again.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./md-styles.css">
+    <link href="/assets/md-css/md-styles.css" rel="stylesheet" />
 </head>
 <body class="markdown-body">
+
     <h1 id="try-to-run-if-happen-appcrash-then-try-to-run-app-again">try-to-run: If happen AppCrash then try to run app again.</h1>
 <p><a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/v/try-to-run" alt="npm-version" /></a>
 <a href="https://www.npmjs.com/package/try-to-run"><img src="https://badgen.net/npm/dw/try-to-run" alt="npm-week-downloads" /></a></p>
@@ -41,6 +41,11 @@ server.on(&quot;request&quot;, function (req, res) {
 // Simulated crash ...
 server.on(&quot;request&quot;, function (req, res) {
     if (req.url === &quot;/crash&quot;) { throw new Error(&quot;Simulated crash ...&quot;); }
+});
+
+// Shutdown ...
+server.on(&quot;request&quot;, function (req, res) {
+    if (req.url === &quot;/shutdown&quot;) { require(&quot;worker_threads&quot;).parentPort.postMessage(&quot;kill&quot;); }
 });
 
 // Test page.
@@ -93,6 +98,7 @@ require(&quot;try-to-run&quot;)(code, 20);
 <h2 id="license">License</h2>
 <p><a href="LICENSE">MIT</a></p>
 <p>Copyright (c) 2021 Manuel Lõhmus <a href="mailto:manuel@hauss.ee">manuel@hauss.ee</a></p>
+
 
 </body>
 </html>

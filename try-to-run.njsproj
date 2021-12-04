@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="browser.js" />
+    <Content Include="config-sets.json" />
     <Content Include="index.js">
       <SubType>Code</SubType>
     </Content>

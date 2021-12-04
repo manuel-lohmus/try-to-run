@@ -7,17 +7,19 @@ var timeout = null;
 var counter = 0;
 
 
-function try_to_run(filename, retrying) {
+function try_to_run(filename, retrying = 10) {
 
+    if (wt.workerData === "try-to-run") return null;
+    if (!filename) { filename = process.argv[1]; }
+
+    var options = { workerData: "try-to-run" };
     var exists = fs.existsSync(path.resolve(filename));
-    var worker = exists
-        ? new wt.Worker(filename)
-        : new wt.Worker(filename, { eval: true });
 
-    worker.on("error", function (err) {
+    if (!exists) { options.eval = true; }
 
-        console.error("\r\n", err);
-    });
+    var worker = new wt.Worker(filename, options);
+
+    worker.on("error", function (err) { console.error("\r\n", err); });
 
     worker.on("exit", function (exitCode) {
 
@@ -25,7 +27,7 @@ function try_to_run(filename, retrying) {
 
             counter++;
             clearTimeout(timeout);
-            console.warn("\r\n" + counter + ". try to run '" + path.parse(filename).base + "'");
+            console.warn("\r\n" + counter + ". try to run '" + filename + "'");
 
             try_to_run(filename, retrying);
 
@@ -40,6 +42,14 @@ function try_to_run(filename, retrying) {
         }
     });
 
+    worker.on("message", function (msg) {
+
+        if (msg === "kill") {
+            worker.removeAllListeners("exit");
+            worker.terminate();
+        }
+    });
+
     return worker;
 }
 
@@ -47,11 +57,10 @@ module.exports = (function () {
 
     function run(filename, retrying = 10) {
 
-        if (!filename) { filename = process.argv[1]; }
-        if (wt.isMainThread) { try_to_run(filename, retrying); }
 
-        return wt.isMainThread;
+        return try_to_run(filename, retrying);
     };
+
     run.try_to_run = try_to_run;
 
     return run;
