@@ -1,23 +1,29 @@
 "use strict";
 
+var options = require("config-sets").init({
+    try_to_run: {
+        retrying: 10,
+        enabled: true
+    }
+}).try_to_run;
+
 var fs = require("fs");
 var path = require("path");
 var wt = require("worker_threads");
 var timeout = null;
 var counter = 0;
 
+function try_to_run(filename, retrying = options.retrying) {
 
-function try_to_run(filename, retrying = 10) {
-
-    if (wt.workerData === "try-to-run") return null;
+    if (!options.enabled || wt.workerData === "try-to-run") return null;
     if (!filename) { filename = process.argv[1]; }
 
-    var options = { workerData: "try-to-run" };
+    var _options = { workerData: "try-to-run" };
     var exists = fs.existsSync(path.resolve(filename));
 
-    if (!exists) { options.eval = true; }
+    if (!exists) { _options.eval = true; }
 
-    var worker = new wt.Worker(filename, options);
+    var worker = new wt.Worker(filename, _options);
 
     worker.on("error", function (err) { console.error("\r\n", err); });
 
@@ -55,11 +61,7 @@ function try_to_run(filename, retrying = 10) {
 
 module.exports = (function () {
 
-    function run(filename, retrying = 10) {
-
-
-        return try_to_run(filename, retrying);
-    };
+    function run(filename, retrying) { return try_to_run(filename, retrying); };
 
     run.try_to_run = try_to_run;
 

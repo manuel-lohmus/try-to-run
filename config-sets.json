@@ -4,6 +4,10 @@
     "browse_url": {
       "launch_url": "http://localhost:1337/",
       "enabled": true
+    },
+    "try_to_run": {
+      "retrying": 10,
+      "enabled": true
     }
   },
   "development": {
