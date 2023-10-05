@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+*.tgz
+bundleconfig.json
+.gitignore
+.gitattributes
+
 # User-specific files
 *.rsuser
 *.suo
@@ -361,3 +366,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/try-to-run.njsproj
+/package-lock.json
+/index.min.js
+/.gitignore
