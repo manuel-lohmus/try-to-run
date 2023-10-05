@@ -1,7 +1,8 @@
 "use strict";
 
+require('log-report');
 /* longer version */
-var try_to_run = require("./../index");
+var try_to_run = require("./../index.min.js");
 //var try_to_run = require("try-to-run");
 var isMainThread = try_to_run(__filename, 20);
 if (isMainThread) return;

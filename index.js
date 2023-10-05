@@ -1,6 +1,7 @@
 "use strict";
 
-var options = require("config-sets").init({
+var configSets = require("config-sets");
+var options = configSets.init({
     try_to_run: {
         retrying: 10,
         enabled: true
@@ -12,58 +13,92 @@ var path = require("path");
 var wt = require("worker_threads");
 var timeout = null;
 var counter = 0;
+var id = 0;
 
-function try_to_run(filename, retrying = options.retrying) {
+function try_to_run(filename, retrying = options.retrying, workerID = id++) {
 
-    if (!options.enabled || wt.workerData === "try-to-run") return null;
-    if (!filename) { filename = process.argv[1]; }
+    return (function (filename, retrying, workerID) {
 
-    var _options = { workerData: "try-to-run" };
-    var exists = fs.existsSync(path.resolve(filename));
+        //console.log("workerID:", workerID);
+        //console.log("filename:", filename);
 
-    if (!exists) { _options.eval = true; }
+        if (wt.workerData === workerID) return null;
+        if (!filename) { filename = process.argv[1]; }
 
-    var worker = new wt.Worker(filename, _options);
+        var _options = { workerData: workerID };
+        var exists = fs.existsSync(path.resolve(filename));
 
-    worker.on("error", function (err) { console.error("\r\n", err); });
+        if (!options.enabled) {
 
-    worker.on("exit", function (exitCode) {
+            if (!Array.isArray(module.workerID)) { module.workerID = []; }
+            if (module.workerID.includes(workerID)) {
 
-        if (counter < retrying || 0 > retrying) {
+                if (configSets.isDebug) {
+                    console.error("[ DEBUG ] 'try-to-run' Worker id:" + workerID + " is running");
+                }
+                return null;
+            }
 
-            counter++;
-            clearTimeout(timeout);
-            console.warn("\r\n" + counter + ". try to run '" + filename + "'");
+            module.workerID.push(workerID);
 
-            try_to_run(filename, retrying);
-
-            timeout = setTimeout(function () {
-
-                console.log("\r\nResetting the retry counter.");
-                counter = 0;
-            }, 30000);
+            if (exists) {
+                // is file code
+                require(filename);
+            }
+            else {
+                Function(filename)();
+            }
+            return null;
         }
-        else {
-            clearTimeout(timeout);
-        }
-    });
 
-    worker.on("message", function (msg) {
+        if (!exists) { _options.eval = true; }
 
-        if (msg === "kill") {
-            worker.removeAllListeners("exit");
-            worker.terminate();
-        }
-    });
+        var worker = new wt.Worker(filename, _options);
 
-    return worker;
+        worker.on("error", function (err) { console.error("[ ERROR ] 'try to run'\r\n", err + ""); });
+
+        worker.on("exit", function (exitCode) {
+
+            if (exitCode === 1 && (counter < retrying || 0 > retrying)) {
+
+                counter++;
+                clearTimeout(timeout);
+                console.warn("[ WARN ]\r\n" + counter + ". try to run '" + filename + "'");
+
+                try_to_run(filename, retrying, workerID);
+
+                timeout = setTimeout(function () {
+
+                    if (configSets.isDebug) {
+                        console.log("[ DEBUG ] 'try-to-run' Resetting the retry counter.");
+                    }
+                    counter = 0;
+                }, 30000);
+            }
+            else {
+                clearTimeout(timeout);
+            }
+        });
+
+        worker.on("message", function (msg) {
+
+            if (msg === "kill") {
+                worker.removeAllListeners("exit");
+                worker.terminate();
+            }
+        });
+
+        return worker;
+
+    })(filename, retrying, workerID);
 }
 
 module.exports = (function () {
 
-    function run(filename, retrying) { return try_to_run(filename, retrying); };
+    function run(filename, retrying, workerID) { return try_to_run(filename, retrying, workerID); };
 
     run.try_to_run = try_to_run;
+    run.options = options;
 
     return run;
 })();

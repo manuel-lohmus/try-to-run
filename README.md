@@ -1,4 +1,4 @@
-# try-to-run: If happen AppCrash then try to run app again.
+﻿# try-to-run: If happen AppCrash then try to run app again.
 
 [![npm-version](https://badgen.net/npm/v/try-to-run)](https://www.npmjs.com/package/try-to-run)
 [![npm-week-downloads](https://badgen.net/npm/dw/try-to-run)](https://www.npmjs.com/package/try-to-run)
@@ -91,16 +91,27 @@ or index.js
 require("try_to_run")("app.js");
 ```
 
-#### Eval: run a code string
-The built-in eval function allows to execute a string of code.
-```js
-var code = 'setTimeout(function () { throw new Error("Simulated crash ..."); }, 1000);';
-
-require("try-to-run")(code, 20);
-```
-
 ## License
 
-[MIT](LICENSE)
+The [MIT](LICENSE) License
+```txt
+Copyright (c) 2021 Manuel Lõhmus <manuel@hauss.ee>
 
-Copyright (c) 2021 Manuel L&otilde;hmus <manuel@hauss.ee>
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
